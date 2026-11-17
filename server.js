@@ -222,11 +222,15 @@ wss.on("connection", (socket) => {
                         const client = room.players[clientUuid];
                         if (client !== socket && client.readyState === WebSocket.OPEN) {
                             client.send(JSON.stringify({
-                                cmd: "update_position",
-                                content: {
-                                    uuid: uuid,
-                                    x: data.content.x,
-                                    y: data.content.y
+    cmd: "update_position",
+    content: {
+        uuid: uuid,
+        x: data.content.x,
+        y: data.content.y,
+        z: data.content.z,
+        r_y: data.content.r_y
+    }
+}));
                                 }
                             }));
                         }
