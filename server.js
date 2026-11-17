@@ -62,18 +62,26 @@ const playerlist = {
         return player;
     },
     
+    
     // Atualiza a posição de um jogador específico
-    update: function(uuid, newX, newY) {
+    update: function(uuid, newX, newY, newZ, newRY) {
         const player = this.get(uuid);
+
         if (player) {
             player.x = newX;
             player.y = newY;
+            player.z = newZ;
+            player.r_y = newRY;
         }
     },
-    
+
     // Remove jogador da lista quando ele sai
     remove: function(uuid) {
-        this.players = this.players.filter(player => player.uuid !== uuid);
+        this.players = this.players.filter(
+            player => player.uuid !== uuid
+        );
+    },
+    
     },
     
     // Retorna todos os jogadores de uma sala específica
