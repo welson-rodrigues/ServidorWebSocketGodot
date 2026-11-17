@@ -63,12 +63,16 @@ const playerlist = {
     },
     
     // Atualiza a posição de um jogador específico
-    update: function(uuid, newX, newY) {
-        const player = this.get(uuid);
-        if (player) {
-            player.x = newX;
-            player.y = newY;
-        }
+    update: function(uuid, newX, newY, newZ, newRY) {
+    const player = this.get(uuid);
+
+    if (player) {
+        player.x = newX;
+        player.y = newY;
+        player.z = newZ;
+        player.r_y = newRY;
+    }
+},
     },
     
     // Remove jogador da lista quando ele sai
