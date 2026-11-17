@@ -215,28 +215,29 @@ wss.on("connection", (socket) => {
         data.content.z,
         data.content.r_y
     );
-                const room = rooms.get(socket.roomId);
-                if (room) {
-                    // Repassa para os outros jogadores da sala
-                    for (const clientUuid in room.players) {
-                        const client = room.players[clientUuid];
-                        if (client !== socket && client.readyState === WebSocket.OPEN) {
-                            client.send(JSON.stringify({
-    cmd: "update_position",
-    content: {
-        uuid: uuid,
-        x: data.content.x,
-        y: data.content.y,
-        z: data.content.z,
-        r_y: data.content.r_y
-    }
-}));
-                                }
-                            }));
-                        }
+
+    const room = rooms.get(socket.roomId);
+
+    if (room) {
+        for (const clientUuid in room.players) {
+            const client = room.players[clientUuid];
+
+            if (client !== socket && client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                    cmd: "update_position",
+                    content: {
+                        uuid: uuid,
+                        x: data.content.x,
+                        y: data.content.y,
+                        z: data.content.z,
+                        r_y: data.content.r_y
                     }
-                }
-                break;
+                }));
+            }
+        }
+    }
+
+    break;
             }
             
             case "chat": {
