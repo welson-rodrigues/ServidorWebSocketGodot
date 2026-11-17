@@ -73,7 +73,7 @@ const playerlist = {
         player.r_y = newRY;
     }
 },
-    },
+
     
     // Remove jogador da lista quando ele sai
     remove: function(uuid) {
