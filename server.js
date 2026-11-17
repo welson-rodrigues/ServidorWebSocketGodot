@@ -207,10 +207,14 @@ wss.on("connection", (socket) => {
                 }
                 break;
             }
-            
             case "position": {
-                // Atualiza posição do jogador no servidor
-                playerlist.update(uuid, data.content.x, data.content.y);
+    playerlist.update(
+        uuid,
+        data.content.x,
+        data.content.y,
+        data.content.z,
+        data.content.r_y
+    );
                 const room = rooms.get(socket.roomId);
                 if (room) {
                     // Repassa para os outros jogadores da sala
