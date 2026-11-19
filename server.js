@@ -229,15 +229,16 @@ wss.on("connection", (socket) => {
 
             if (client !== socket && client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({
-                    cmd: "update_position",
-                    content: {
-                        uuid: uuid,
-                        x: data.content.x,
-                        y: data.content.y,
-                        z: data.content.z,
-                        r_y: data.content.r_y
-                        moving: data.content.moving,
-                        running: data.content.running
+                client.send(JSON.stringify({
+    cmd: "update_position",
+    content: {
+        uuid: uuid,
+        x: data.content.x,
+        y: data.content.y,
+        z: data.content.z,
+        r_y: data.content.r_y,
+        moving: data.content.moving,
+        running: data.content.running
                     }
                 }));
             }
