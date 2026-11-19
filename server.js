@@ -223,27 +223,28 @@ wss.on("connection", (socket) => {
 
     const room = rooms.get(socket.roomId);
 
-    if (room) {
-        for (const clientUuid in room.players) {
-            const client = room.players[clientUuid];
 
-            if (client !== socket && client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({
-                client.send(JSON.stringify({
-    cmd: "update_position",
-    content: {
-        uuid: uuid,
-        x: data.content.x,
-        y: data.content.y,
-        z: data.content.z,
-        r_y: data.content.r_y,
-        moving: data.content.moving,
-        running: data.content.running
-                    }
-                }));
-            }
+if (room) {
+    for (const clientUuid in room.players) {
+        const client = room.players[clientUuid];
+
+        if (client !== socket && client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({
+                cmd: "update_position",
+                content: {
+                    uuid: uuid,
+                    x: data.content.x,
+                    y: data.content.y,
+                    z: data.content.z,
+                    r_y: data.content.r_y,
+                    moving: data.content.moving,
+                    running: data.content.running
+                }
+            }));
         }
     }
+}
+                
 
     break;
             }
