@@ -214,7 +214,6 @@ wss.on("connection", (socket) => {
         data.content.y,
         data.content.z,
         data.content.r_y,
-        data.content.moving
         }
     );
 
@@ -232,7 +231,8 @@ wss.on("connection", (socket) => {
                         x: data.content.x,
                         y: data.content.y,
                         z: data.content.z,
-                        r_y: data.content.r_y
+                        r_y: data.content.r_y,
+                        moving: data.content.moving
                     }
                 }));
             }
