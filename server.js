@@ -213,8 +213,7 @@ wss.on("connection", (socket) => {
         data.content.x,
         data.content.y,
         data.content.z,
-        data.content.r_y,
-        }
+        data.content.r_y
     );
 
     const room = rooms.get(socket.roomId);
