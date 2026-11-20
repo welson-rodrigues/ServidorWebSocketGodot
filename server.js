@@ -63,13 +63,17 @@ const playerlist = {
     },
     
     // Atualiza a posição de um jogador específico
-    update: function(uuid, newX, newY) {
-        const player = this.get(uuid);
-        if (player) {
-            player.x = newX;
-            player.y = newY;
-        }
-    },
+    update: function(uuid, newX, newY, newZ, newRY) {
+    const player = this.get(uuid);
+
+    if (player) {
+        player.x = newX;
+        player.y = newY;
+        player.z = newZ;
+        player.r_y = newRY;
+    }
+},
+
     
     // Remove jogador da lista quando ele sai
     remove: function(uuid) {
@@ -203,28 +207,38 @@ wss.on("connection", (socket) => {
                 }
                 break;
             }
-            
             case "position": {
-                // Atualiza posição do jogador no servidor
-                playerlist.update(uuid, data.content.x, data.content.y);
-                const room = rooms.get(socket.roomId);
-                if (room) {
-                    // Repassa para os outros jogadores da sala
-                    for (const clientUuid in room.players) {
-                        const client = room.players[clientUuid];
-                        if (client !== socket && client.readyState === WebSocket.OPEN) {
-                            client.send(JSON.stringify({
-                                cmd: "update_position",
-                                content: {
-                                    uuid: uuid,
-                                    x: data.content.x,
-                                    y: data.content.y
-                                }
-                            }));
-                        }
+    playerlist.update(
+        uuid,
+        data.content.x,
+        data.content.y,
+        data.content.z,
+        data.content.r_y
+    );
+
+    const room = rooms.get(socket.roomId);
+
+    if (room) {
+        for (const clientUuid in room.players) {
+            const client = room.players[clientUuid];
+
+            if (client !== socket && client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                    cmd: "update_position",
+                    content: {
+                        uuid: uuid,
+                        x: data.content.x,
+                        y: data.content.y,
+                        z: data.content.z,
+                        r_y: data.content.r_y,
+                        moving: data.content.moving
                     }
-                }
-                break;
+                }));
+            }
+        }
+    }
+
+    break;
             }
             
             case "chat": {
